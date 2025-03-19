@@ -1,0 +1,4 @@
+ SELECT usuario_criacao AS analista,
+    count(nome_ferramenta) AS ferramentas
+   FROM tab_ferramenta
+  GROUP BY usuario_criacao;

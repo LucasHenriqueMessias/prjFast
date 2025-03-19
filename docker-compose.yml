@@ -1,0 +1,67 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: yami
+      POSTGRES_PASSWORD: fast153
+      POSTGRES_DB: pool
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    networks:
+      - fastservices
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: lucashenriquemessiasgoncalves@gmail.com 
+      PGADMIN_DEFAULT_PASSWORD: fast1532
+    ports:
+      - "5050:80"
+    volumes:	
+      - ./pgadmin:/var/lib/pgadmin
+    networks:
+      - fastservices
+  fastapi:
+    build: ./fastapi
+    container_name: fastapi
+    ports:
+      - "3002:3002"
+    volumes:
+      - .:/api
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://yami:fast1532@db:5432/pool
+    networks:
+      - fastservices
+  fastanalytics:
+    build:
+      context: ./fastanalytics
+      dockerfile: dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - .:/analytics
+    depends_on:
+      - fastapi
+    networks:
+      - fastservices
+  fastcursos:
+    build:
+      context: ./fastcursos
+      dockerfile: dockerfile
+    ports:
+      - "81:81"
+    volumes:
+      - .:/fastinnovation
+    depends_on:
+      - fastapi
+    networks:
+      - fastservices
+networks:
+  fastservices:

@@ -1,0 +1,14 @@
+ SELECT usuario,
+    count(maquina_cartao) AS maquina_cartao,
+    count(emprestimos_financiamentos) AS emprestimos_financiamentos,
+    count(telefonia) AS telefonia,
+    count(contabilidade) AS contabilidade,
+    count(taxas_bancarias) AS taxas_bancarias,
+    count(taxas_administrativas) AS taxas_administrativas,
+    count(investimentos) AS investimentos,
+    count(juridico) AS juridico,
+    count(mensalidade_roi) AS mensalidade_roi,
+    count(ferias) AS ferias,
+    count(aumento_equipe) AS aumento_equipe
+   FROM tab_roi
+  GROUP BY usuario;
